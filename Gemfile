@@ -11,3 +11,6 @@ gem "fsp-proxies", "~>0.1.0"
 gem "rest-client", "~> 2.1"
 gem "sinatra", "~> 2.2"
 gem "puma", "~> 5.6"
+gem 'sinatra', '~> 2.2'
+gem 'sinatra-cross_origin', '~> 0.4'
+

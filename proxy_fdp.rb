@@ -1,13 +1,19 @@
 require 'fsp/proxies'
 require 'sinatra'
+require 'sinatra/cross_origin'
 require 'rest-client'
 
 BASE_URL = ENV['FSP_PROXY_BASE_URL'] || 'http://fairdata.services:7071/'
 
-# get '/*' do
-#   url = BASE_URL + params['splat'].join.to_s
-#   url + params.to_s
-# end
+set :bind, '0.0.0.0'
+configure do
+  enable :cross_origin
+end
+before do
+  response.headers['Access-Control-Allow-Origin'] = '*'
+end
+
+
 get '/*' do
   url = BASE_URL + params['splat'].join.to_s
   format = params['format']
@@ -39,3 +45,9 @@ get '/*' do
 end
 
 
+options "*" do
+  response.headers["Allow"] = "GET, PUT, POST, HEAD, DELETE, OPTIONS"
+  response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
+  response.headers["Access-Control-Allow-Origin"] = "*"
+  200
+end
