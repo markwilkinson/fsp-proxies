@@ -14,17 +14,23 @@ before do
 end
 
 
-get '/*' do
+get '/' do
   #url = BASE_URL + params['splat'].join.to_s
-  format = params['url']
-  resp = RestClient.get(url)
-  p = Fsp::Proxies::Zenodo.new(url: url)
-  p.proxy
-  html = p.to_html
-  html.gsub!(/<head>/, "<head><base href='https://zenodo.org/'/>")
-  #puts "Content-type: text/html\n\n"
-  #puts html
-  html
+  warn "starting"
+  zenodo = params['zenodo']
+  if zenodo 
+    warn "getting #{zenodo}"
+    resp = RestClient.get(zenodo)
+    p = Fsp::Proxies::Zenodo.new(url: zenodo)
+    p.proxy
+    html = p.to_html
+    html.gsub!(/<head>/, "<head><base href='https://zenodo.org/'/>")
+    #puts "Content-type: text/html\n\n"
+    #puts html
+    html
+  else
+    "nothing Here"
+  end
 end
 
 
